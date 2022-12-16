@@ -6,7 +6,7 @@
 import random
 import string 
 
-def rank(pwd: str) -> str:
+def check_password_strength(pwd: str) -> str:
     '''
     Ranker function that ranks the password based on the assigned criteria
 
@@ -33,9 +33,43 @@ def rank(pwd: str) -> str:
     Returns: rank -> rank of password; POOR / MODERATE / STRONG
     '''
     ## Start code here
+
+    lower_count = 0
+    upper_count = 0
+    digit_count = 0
+    symbol_count = 0
+
+    for c in pwd:
+        if c.islower():
+            lower_count += 1
+        elif c.isupper():
+            upper_count += 1
+        elif c.isdigit():
+            digit_count +=1
+        elif c in string.punctuation:
+            symbol_count += 1
+
     
+    if lower_count <1 or upper_count <1 or digit_count <1 or symbol_count <1:
+        strength = 'POOR'
+    elif len(pwd) < 8 or len(pwd) > 10:
+        strength = 'POOR'
+    elif len(pwd) < 8 or len(pwd) > 10:
+        strength = 'POOR'
+    elif len(pwd) >= 8 and len(pwd) <= 10:
+        strength = 'MODERATE'
+    else:
+        strength = 'STRONG'
     ## End code here
-    return rank
+    return strength
+
+while True:
+        print('\nMenu:')
+        print('1. Check passwords in a file')
+        print('2. Generate a new password')
+        print('3. Quit')
+
+if choice == '1':
 
 def option1():
     '''
@@ -50,7 +84,15 @@ def option1():
     # 5. Close necessary files and print to terminal.
     
     ## START CODE HERE
+    if choice == '1':
+        with open(r'C:\Users\Hp\Desktop\TWL_DRCFS_30DaysPythonBootcamp\Week 2\Assignments\Users-Pwds(10).txt','r') as input_file:
+            with open(r'C:\Users\Hp\Desktop\TWL_DRCFS_30DaysPythonBootcamp\Week 2\Assignments\Users-Pwds(200).txt','w') as output_file:
+                for line in input_file:
+                    username, password = line.strip().split(',')
+                    strength = check_password_strength(password)
 
+                    output_file.write(f'{username}, {password}, {strength}\n')
+        print(f'Processed {line_count} passwords. Output can be found in Users-Pwds-Chked.txt')
     ## END CODE HERE
 
     print('#'*80)
@@ -59,6 +101,8 @@ def option1():
     print('[INFO] '+'The given rankings can be found in Users-Pwds-Chked.txt')
     print('#'*80)
 
+elif choice == '2':
+    
 def option2():
     '''
     Function to be executed when the user selects option 2 (generate password) in the main loop.
@@ -90,7 +134,8 @@ def option2():
         # While the required ranking is not met continue joining new Ualphabet, Lalphabet, chars and digits.
         
         ## START CODE HERE
-
+        password = ''.join(random.choices(string.ascii_letters + string.digits + string.punctuation, k =12))
+        return password
         ## END CODE HERE
         return pwd
     
